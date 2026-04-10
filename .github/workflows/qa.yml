@@ -2,8 +2,8 @@ name: Orbit QA Monitor
 
 on:
   schedule:
-    - cron: '30 3 * * *'  # runs daily at 9am IST
-  workflow_dispatch:  # allows manual trigger too
+    - cron: '30 3 * * *'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -29,3 +29,21 @@ jobs:
           ORBIT_USERNAME: ${{ secrets.ORBIT_USERNAME }}
           ORBIT_PASSWORD: ${{ secrets.ORBIT_PASSWORD }}
         run: node tests/orbit.test.js
+
+      - name: Notify Slack on success
+        if: success()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'new-channel'
+          slack-message: "Orbit QA Report - All tests passed successfully today. Login, feed and buttons all working fine."
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: Notify Slack on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          channel-id: 'new-channel'
+          slack-message: "ALERT - Orbit QA tests failed today. Please check GitHub Actions for details."
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
