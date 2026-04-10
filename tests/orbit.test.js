@@ -9,13 +9,13 @@ const { chromium } = require('playwright');
   console.log('Login page loaded successfully');
   
   // Step 2 - Login with credentials from GitHub Secrets
-  await page.fill('input[name="username"]', process.env.ORBIT_USERNAME);
-  await page.fill('input[name="password"]', process.env.ORBIT_PASSWORD);
-  await page.click('button[type="submit"]');
+  await page.fill('#username', process.env.ORBIT_USERNAME);
+  await page.fill('#password', process.env.ORBIT_PASSWORD);
+  await page.click('button.login-btn');
   console.log('Login submitted');
   
   // Step 3 - Wait and check if feed loaded after login
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(5000);
   const feedExists = await page.$('.feed') !== null;
   console.log(feedExists ? 'Feed loaded successfully' : 'Feed failed to load');
   
