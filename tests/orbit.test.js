@@ -9,8 +9,8 @@ const { chromium } = require('playwright');
   console.log('Login page loaded successfully');
   
   // Step 2 - Login with credentials from GitHub Secrets
-  await page.fill('input[name="username"]', process.env.tamanna.t@sparkbrains.ai);
-  await page.fill('input[name="password"]', process.env.Tamanna@9);
+  await page.fill('input[name="username"]', process.env.ORBIT_USERNAME);
+  await page.fill('input[name="password"]', process.env.ORBIT_PASSWORD);
   await page.click('button[type="submit"]');
   console.log('Login submitted');
   
